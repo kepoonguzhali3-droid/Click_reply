@@ -110,25 +110,21 @@ def assign_actions(email_list):
     return {email_list[i]["id"]: bucket[i] for i in range(total)}
 
 
-# ---------- SELENIUM FIXTURE ----------
 @pytest.fixture()
 def driver():
     chrome_options = Options()
-    chrome_options.add_argument("--start-maximized")
+
+    # ✅ Required for CI
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
 
     service = Service()
     driver = webdriver.Chrome(service=service, options=chrome_options)
-#linmeza845@gmail.com;Sywyjrhpgvq;94.131.68.100;12323;14a6de8916a01;aa267ffe92;truonganhpod232@gmail.com;9498324195
-    data = {
-        "Email": "linmeza845@gmail.com",
-        "Password": "Sywyjrhpgvq",
-        "RECOVERY_EMAIL" : "truonganhpod232@gmail.com"
-    }
-    LoginPage(driver).login(data["Email"], data["Password"], data["RECOVERY_EMAIL"])
 
     yield driver
     driver.quit()
-
 
 # ---------- TEST ----------
 def test_gmail_search_with_logic(driver):
