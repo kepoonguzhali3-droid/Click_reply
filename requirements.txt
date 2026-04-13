@@ -3,3 +3,4 @@ playwright
 pytest-playwright
 requests
 python-dotenv
+selenium
